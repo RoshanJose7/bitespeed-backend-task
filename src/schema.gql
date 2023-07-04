@@ -1,0 +1,153 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Card {
+  id: String!
+
+  """Type of Card"""
+  type: CARDTYPE!
+
+  """Profile of the Card Owner"""
+  profile: String!
+
+  """Name of Card"""
+  name: String!
+
+  """Title of the Card"""
+  title: String!
+
+  """Description of the Card"""
+  description: String!
+
+  """Links of the Card"""
+  links: [String!]!
+
+  """User id of the Card Owner"""
+  userId: String!
+  user: User!
+}
+
+enum CARDTYPE {
+  BUSINESS
+  INDIVIDUAL
+  ORGANIZATION
+}
+
+type User {
+  id: String!
+
+  """Full Name of the User"""
+  name: String!
+
+  """Email of the User"""
+  email: String
+
+  """Phone Number of the User"""
+  phoneNumber: String!
+  cards: [Card!]
+}
+
+type Pet {
+  id: String!
+  name: String!
+  type: String
+  ownerId: String!
+  owner: Owner!
+}
+
+type Owner {
+  id: String!
+  name: String!
+  pets: [Pet!]!
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  cards: [Card!]!
+  card(id: String!): Card!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  createCard(createCardInput: CreateCardInput!): Card!
+  updateCard(updateCardInput: UpdateCardInput!): Card!
+  removeCard(id: String!): Card!
+}
+
+input CreateUserInput {
+  """Full Name of the User"""
+  name: String!
+
+  """Email of the User"""
+  email: String!
+
+  """Phone Number of the User"""
+  phoneNumber: String!
+}
+
+input UpdateUserInput {
+  """Full Name of the User"""
+  name: String
+
+  """Email of the User"""
+  email: String
+
+  """Phone Number of the User"""
+  phoneNumber: String
+
+  """Id of the user to be updated"""
+  id: Int!
+}
+
+input CreateCardInput {
+  """Type of Card"""
+  type: CARDTYPE!
+
+  """Profile of the Card Owner"""
+  profile: String!
+
+  """Name of Card"""
+  name: String!
+
+  """Title of the Card"""
+  title: String!
+
+  """Description of the Card"""
+  description: String!
+
+  """Links of the Card"""
+  links: [String!]!
+
+  """User id of the Card Owner"""
+  userId: String!
+}
+
+input UpdateCardInput {
+  """Type of Card"""
+  type: CARDTYPE
+
+  """Profile of the Card Owner"""
+  profile: String
+
+  """Name of Card"""
+  name: String
+
+  """Title of the Card"""
+  title: String
+
+  """Description of the Card"""
+  description: String
+
+  """Links of the Card"""
+  links: [String!]
+
+  """User id of the Card Owner"""
+  userId: String
+
+  """Id of card to be updated"""
+  id: String!
+}
