@@ -53,7 +53,7 @@ class ConfigService {
         username: this.getValue("POSTGRES_USER"),
         password: this.getValue("POSTGRES_PASSWORD"),
         database: this.getValue("POSTGRES_DB"),
-        entities: [__dirname + "/../**/*.entity.{js,ts}"],
+        entities: [__dirname + "/../**/entities/*.entity.{js,ts}"],
         migrations: [__dirname + "/../database/migrations/*.{js,ts}"],
         extra: {
           charset: "utf8mb4_unicode_ci",
@@ -73,7 +73,7 @@ class ConfigService {
                 ).toString(),
               }
             : false,
-        synchronize: false,
+        synchronize: true,
       };
     },
   };
@@ -85,7 +85,7 @@ class ConfigService {
     username: this.getValue("POSTGRES_USER"),
     password: this.getValue("POSTGRES_PASSWORD"),
     database: this.getValue("POSTGRES_DB"),
-    entities: [__dirname + "/../**/*.entity.{js,ts}"],
+    entities: [__dirname + "/../**/entities/*.entity.{js,ts}"],
     migrations: [__dirname + "/../database/migrations/*.{js,ts}"],
     extra: {
       charset: "utf8mb4_unicode_ci",
@@ -98,7 +98,7 @@ class ConfigService {
             ).toString(),
           }
         : false,
-    synchronize: false,
+    synchronize: true,
     logging: true,
   };
 }

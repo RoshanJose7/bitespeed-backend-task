@@ -7,9 +7,10 @@ import { CardsService } from "./cards.service";
 import { CardsResolver } from "./cards.resolver";
 import { UsersModule } from "../users/users.module";
 import { CardEnums } from "./constants/enums.constants";
+import { CardTemplatesModule } from "../card_templates/card_templates.module";
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forFeature([Card])],
+  imports: [UsersModule, CardTemplatesModule, TypeOrmModule.forFeature([Card])],
   providers: [CardsResolver, CardsService],
   exports: [CardsService],
 })

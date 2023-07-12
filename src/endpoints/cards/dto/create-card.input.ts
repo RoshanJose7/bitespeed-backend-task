@@ -1,10 +1,11 @@
-import { IsString } from "class-validator";
+import { IsEnum, IsString } from "class-validator";
 import { InputType, Field } from "@nestjs/graphql";
 
 import { CARDTYPE } from "../constants/enums.constants";
 
 @InputType()
 export class CreateCardInput {
+  @IsEnum(CARDTYPE)
   @Field(() => CARDTYPE, { description: "Type of Card" })
   type: CARDTYPE;
 
@@ -29,6 +30,10 @@ export class CreateCardInput {
   links: string[];
 
   @IsString()
-  @Field({ description: "User id of the Card Owner" })
+  @Field({ description: "User Id for Card" })
   userId: string;
+
+  @IsString()
+  @Field({ description: "Card Template Id for Card" })
+  cardTemplateId: string;
 }

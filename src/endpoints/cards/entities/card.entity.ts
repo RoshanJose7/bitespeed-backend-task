@@ -3,6 +3,7 @@ import { PrimaryGeneratedColumn, Column, ManyToOne, Entity } from "typeorm";
 
 import { User } from "../../users/entities/user.entity";
 import { CARDTYPE } from "../constants/enums.constants";
+import { CardTemplate } from "../../card_templates/entities/card_template.entity";
 
 @Entity()
 @ObjectType()
@@ -24,7 +25,7 @@ export class Card {
   @Field({ description: "Profile of the Card Owner" })
   profile: string;
 
-  // Avatar
+  // TODO: Avatar
 
   @Column({
     type: "varchar",
@@ -51,18 +52,26 @@ export class Card {
   @Field(() => [String], { description: "Links of the Card" })
   links: string[];
 
-  // Card Owner Relation
   @Column({
     type: "varchar",
   })
-  @Field({ description: "User id of the Card Owner" })
+  @Field({ description: "User Id of the Card Owner" })
   userId: string;
 
+  @Column({
+    type: "varchar",
+  })
+  @Field({ description: "Card Template Id of the Card Owner" })
+  cardTemplateId: string;
+
   @ManyToOne(() => User, (user) => user.cards)
-  @Field(() => User)
+  @Field(() => User, { description: "Card Owner" })
   user: User;
 
-  // FK: Card Template
-  // FK: Card Engagement Panels
-  // FK: Card Authorized Users
+  @ManyToOne(() => CardTemplate, (cardTemplate) => cardTemplate.cards)
+  @Field(() => CardTemplate, { description: "Card Template of the Card" })
+  cardTemplate: CardTemplate;
+
+  // TODO: FK: Card Engagement Panels
+  // TODO: FK: Card Authorized Users
 }

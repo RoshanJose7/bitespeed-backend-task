@@ -3,10 +3,12 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { Card } from "./entities/card.entity";
-import { CreateCardInput } from "./dto/create-card.input";
-import { UpdateCardInput } from "./dto/update-card.input";
 import { User } from "../users/entities/user.entity";
 import { UsersService } from "../users/users.service";
+import { CreateCardInput } from "./dto/create-card.input";
+import { UpdateCardInput } from "./dto/update-card.input";
+import { CardTemplate } from "../card_templates/entities/card_template.entity";
+import { CardTemplatesService } from "../card_templates/card_templates.service";
 
 @Injectable()
 export class CardsService {
@@ -14,6 +16,7 @@ export class CardsService {
     @InjectRepository(Card)
     private cardsRepository: Repository<Card>,
     private usersService: UsersService,
+    private cardTemplatesService: CardTemplatesService,
   ) {}
 
   create(createCardInput: CreateCardInput): Promise<Card> {
@@ -43,5 +46,9 @@ export class CardsService {
   // Misc
   getCardOwner(userId: string): Promise<User> {
     return this.usersService.findOne(userId);
+  }
+
+  getCardTemplate(cardTemplateId: string): Promise<CardTemplate> {
+    return this.cardTemplatesService.findOne(cardTemplateId);
   }
 }

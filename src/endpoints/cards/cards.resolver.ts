@@ -12,6 +12,7 @@ import { CardsService } from "./cards.service";
 import { CreateCardInput } from "./dto/create-card.input";
 import { UpdateCardInput } from "./dto/update-card.input";
 import { User } from "../users/entities/user.entity";
+import { CardTemplate } from "../card_templates/entities/card_template.entity";
 
 @Resolver(() => Card)
 export class CardsResolver {
@@ -32,11 +33,6 @@ export class CardsResolver {
     return this.cardsService.findOne(id);
   }
 
-  @ResolveField(() => User)
-  user(@Parent() card: Card): Promise<User> {
-    return this.cardsService.getCardOwner(card.userId);
-  }
-
   @Mutation(() => Card)
   updateCard(@Args("updateCardInput") updateCardInput: UpdateCardInput) {
     return this.cardsService.update(updateCardInput.id, updateCardInput);
@@ -45,5 +41,16 @@ export class CardsResolver {
   @Mutation(() => Card)
   removeCard(@Args("id") id: string) {
     return this.cardsService.remove(id);
+  }
+
+  // External Resolvers
+  @ResolveField(() => User)
+  user(@Parent() card: Card): Promise<User> {
+    return this.cardsService.getCardOwner(card.userId);
+  }
+
+  @ResolveField(() => CardTemplate)
+  cardTemplate(@Parent() card: Card): Promise<CardTemplate> {
+    return this.cardsService.getCardTemplate(card.cardTemplateId);
   }
 }
