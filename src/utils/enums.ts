@@ -1,4 +1,4 @@
 export enum LinkPrecedence {
-  PRIMARY = "primary",
-  SECONDARY = "secondary",
+	PRIMARY = "primary",
+	SECONDARY = "secondary",
 }
