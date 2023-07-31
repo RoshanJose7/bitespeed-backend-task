@@ -25,21 +25,7 @@ class ConfigService {
         extra: {
           charset: "utf8mb4_unicode_ci",
         },
-        ssl:
-          this.getValue("POSTGRES_SSL") === "true"
-            ? {
-                ca: readFileSync(
-                  join(
-                    __dirname,
-                    "..",
-                    "..",
-                    "data",
-                    "db",
-                    "ca-certificate.crt",
-                  ),
-                ).toString(),
-              }
-            : false,
+        ssl: true,
         synchronize: true,
       };
     },
@@ -56,14 +42,7 @@ class ConfigService {
     extra: {
       charset: "utf8mb4_unicode_ci",
     },
-    ssl:
-      this.getValue("POSTGRES_SSL") === "true"
-        ? {
-            ca: readFileSync(
-              join(__dirname, "..", "..", "data", "db", "ca-certificate.crt"),
-            ).toString(),
-          }
-        : false,
+    ssl: true,
     synchronize: true,
     logging: true,
   };
