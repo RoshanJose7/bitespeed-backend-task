@@ -6,18 +6,18 @@ import { AppModule } from "./app.module";
 import { configService } from "./config/env.config.service";
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, {
-		cors: true
-	});
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
 
-	app.enableCors({
-		origin: "*"
-	});
+  app.enableCors({
+    origin: "*",
+  });
 
-	app.use(compression());
-	app.useGlobalPipes(new ValidationPipe());
+  app.use(compression());
+  app.useGlobalPipes(new ValidationPipe());
 
-	await app.listen(configService.getPort());
+  await app.listen(configService.getPort());
 }
 
 bootstrap();
