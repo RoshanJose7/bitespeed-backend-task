@@ -1,10 +1,7 @@
-import helmet from "helmet";
-import { Settings } from "luxon";
 import { NestFactory } from "@nestjs/core";
-import * as compression from "compression";
+import { ValidationPipe } from "@nestjs/common";
 
 import { AppModule } from "./app.module";
-import { ValidationPipe } from "@nestjs/common";
 import { configService } from "./config/env.config.service";
 
 async function bootstrap() {
@@ -12,11 +9,10 @@ async function bootstrap() {
     cors: true,
   });
 
-  Settings.defaultZone = "Asia/Kolkata";
+  app.enableCors({
+    origin: "*",
+  });
 
-  app.use(helmet());
-  app.use(compression());
-  app.enableCors({ origin: "*" });
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(configService.getPort());
