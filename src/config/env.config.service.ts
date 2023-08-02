@@ -25,7 +25,7 @@ class ConfigService {
         entities: [__dirname + "/../**/*.entity.{js,ts}"],
         migrations: [__dirname + "/../database/migrations/*.{js,ts}"],
         ssl: this.getValue("POSTGRES_SSL") === "true",
-        synchronize: true,
+        synchronize: false,
       };
     },
   };
@@ -39,7 +39,7 @@ class ConfigService {
     entities: [__dirname + "/../**/*.entity.{js,ts}"],
     migrations: [__dirname + "/../database/migrations/*.{js,ts}"],
     ssl: this.getValue("POSTGRES_SSL") === "true",
-    synchronize: true,
+    synchronize: false,
   };
 
   constructor(private env: { [k: string]: string | undefined }) {}
@@ -61,9 +61,14 @@ class ConfigService {
 
     return value;
   }
+
+  public getRedisHost(): string {
+    return this.getValue("REDIS_HOST", true);
+  }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
+  "REDIS_HOST",
   "POSTGRES_HOST",
   "POSTGRES_DB",
   "POSTGRES_PORT",
