@@ -22,10 +22,10 @@
 ### Request
 Request
 ```http
-GET /identify
+POST /identify
 ```
 
-Query Parameters (not Body)
+Body Parameters
 ```json
 {
     "email": "roshan@gmail.com",
