@@ -61,14 +61,9 @@ class ConfigService {
 
     return value;
   }
-
-  public getRedisHost(): string {
-    return this.getValue("REDIS_HOST", true);
-  }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  "REDIS_HOST",
   "POSTGRES_HOST",
   "POSTGRES_DB",
   "POSTGRES_PORT",

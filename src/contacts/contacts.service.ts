@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
@@ -15,6 +15,15 @@ export class ContactsService {
   ) {}
 
   async create(createContactDto: CreateContactDto): Promise<Contact> {
+    const oldContact = await this.findOneContact(
+      createContactDto.email,
+      createContactDto.phoneNumber,
+    );
+
+    console.log("oldContact: ", oldContact);
+
+    if (oldContact) return oldContact;
+
     const result = await this.checkContact(createContactDto);
 
     if (result) {
@@ -35,12 +44,26 @@ export class ContactsService {
     return this.contactRepository.save(contact);
   }
 
-  findAll(): Promise<Contact[]> {
-    return this.contactRepository.find();
+  findAll(conditions?: FindOptionsWhere<Contact>): Promise<Contact[]> {
+    return this.contactRepository.find({
+      where: conditions,
+    });
   }
 
   findOne(id: number): Promise<Contact> {
     return this.contactRepository.findOneOrFail({ where: { id } });
+  }
+
+  findOneContact(email: string, phoneNumber: string): Promise<Contact | null> {
+    return this.contactRepository.findOne({ where: { email, phoneNumber } });
+  }
+
+  findByEmail(email: string): Promise<Contact[]> {
+    return this.contactRepository.find({ where: { email } });
+  }
+
+  findByPhoneNumber(phoneNumber: string): Promise<Contact[]> {
+    return this.contactRepository.find({ where: { phoneNumber } });
   }
 
   async update(
@@ -95,7 +118,14 @@ export class ContactsService {
           : phoneNumberContact;
 
       const secondary =
-        primary === emailContact ? phoneNumberContact : emailContact;
+        emailContact === phoneNumberContact
+          ? null
+          : primary === emailContact
+            ? phoneNumberContact
+            : emailContact;
+
+      console.log("primary: ", primary);
+      console.log("secondary: ", secondary);
 
       return { primary, secondary };
     } else if (emailContact) return { primary: emailContact, secondary: null };
