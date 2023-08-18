@@ -10,6 +10,9 @@ import {
 
 import { LinkPrecedence } from "../../utils/enums";
 
+/**
+ * Contact entity represents individual contacts in the system.
+ */
 @Entity()
 export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn("increment")
