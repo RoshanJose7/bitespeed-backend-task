@@ -70,6 +70,40 @@ export class ContactsService {
     });
   }
 
+  findAllContacts(
+    precedence: LinkPrecedence,
+    email?: string,
+    phoneNumber?: string,
+  ): Promise<Contact[]> {
+    const query = this.contactRepository.createQueryBuilder("contact");
+
+    if (email) query.orWhere(`contact.email = :email`, { email });
+
+    if (phoneNumber)
+      query.orWhere(`contact.phoneNumber = :phoneNumber`, { phoneNumber });
+
+    return query.getMany();
+  }
+
+  findContactById(
+    id: number,
+    precedence: LinkPrecedence,
+    email?: string,
+    phoneNumber?: string,
+  ): Promise<Contact> {
+    const query = this.contactRepository.createQueryBuilder("contact");
+
+    query.where(`contact.id = :id`, { id });
+    query.andWhere(`contact.linkedPrecedence = :precedence`, { precedence });
+
+    if (email) query.orWhere(`contact.email = :email`, { email });
+
+    if (phoneNumber)
+      query.orWhere(`contact.phoneNumber = :phoneNumber`, { phoneNumber });
+
+    return query.getOne();
+  }
+
   /**
    * Retrieve a contact by its ID.
    * @param {number} id - The ID of the contact to retrieve.
@@ -78,6 +112,16 @@ export class ContactsService {
   findOne(id: number): Promise<Contact> {
     // Use the contactRepository to find a contact by ID, or throw an error if not found
     return this.contactRepository.findOneOrFail({ where: { id } });
+  }
+
+  findContactsByLinkedId(
+    linkedPrecedence: LinkPrecedence,
+    linkedId: number,
+  ): Promise<Contact[]> {
+    // Use the contactRepository to find a contact by ID, or throw an error if not found
+    return this.contactRepository.find({
+      where: { linkedPrecedence, linkedId },
+    });
   }
 
   /**

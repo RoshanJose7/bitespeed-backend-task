@@ -29,7 +29,7 @@ class ConfigService {
         entities: [__dirname + "/../**/*.entity.{js,ts}"], // Entity files to be included
         migrations: [__dirname + "/../database/migrations/*.{js,ts}"], // Migration files to be included
         ssl: this.getValue("POSTGRES_SSL") === "true", // Enable SSL based on environment value
-        synchronize: false, // Disable automatic schema synchronization
+        synchronize: true, // Disable automatic schema synchronization
       };
     },
   };
